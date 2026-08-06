@@ -44,7 +44,7 @@ bundled in the plugin.
 ## Layout
 
 ```
-.agents/plugins/marketplace.json   # marketplace catalog (local source)
+.agents/plugins/marketplace.json   # repo-level catalog (see note below)
 plugins/namefi/
 ├── .codex-plugin/plugin.json      # required manifest
 ├── .mcp.json                      # bundled Namefi MCP server
@@ -55,6 +55,14 @@ SUBMISSION.md                       # marketplace submission runbook
 
 Only `plugin.json` goes inside `.codex-plugin/` — everything else sits at the
 plugin root.
+
+**On `.agents/plugins/marketplace.json`:** the installer writes its *own* copy of
+this file into the target project (or `~/.agents/`) at install time, naming the
+marketplace after the destination directory. The one in this repo is the
+repo-level catalog the docs call for — it makes the repo self-describing for
+`--plugins` crawls and review — but installing users never consume it directly.
+Verified by installing the official `openai/plugins` notion plugin and diffing
+what the CLI generated.
 
 ## Submitting
 

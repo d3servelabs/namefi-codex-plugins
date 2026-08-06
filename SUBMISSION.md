@@ -18,8 +18,14 @@ automatically and anything ambiguous goes to manual review before publication.
   npx codex-marketplace add d3servelabs/namefi-codex-plugin/plugins/namefi --plugin --project
   ```
 
+- [ ] Install writes `[plugins."namefi@<marketplace>"] enabled = true` into
+      `~/.codex/config.toml`, and the plugin lands under `./plugins/namefi`
 - [ ] In Codex, the sign-in prompt appears, and after authenticating a live call
       works — e.g. "is acme-robotics.com available and what does it cost?"
+- [ ] `npx codex-marketplace remove namefi --project` cleans up
+
+The CLI itself was verified at v0.2.1: the flags above are real, and a test install
+of the official `openai/plugins` notion plugin round-tripped cleanly.
 
 ## Submit
 
