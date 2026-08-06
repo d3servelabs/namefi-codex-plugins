@@ -1,0 +1,40 @@
+{
+  "name": "namefi",
+  "version": "0.1.0",
+  "description": "Search, register, and manage domains and their DNS through the Namefi API, via the hosted Namefi MCP server.",
+  "author": {
+    "name": "D3Serve Labs",
+    "url": "https://namefi.io"
+  },
+  "homepage": "https://namefi.io",
+  "repository": "https://github.com/d3servelabs/namefi-codex-plugin",
+  "license": "MIT",
+  "keywords": [
+    "domains",
+    "dns",
+    "domain-registration",
+    "namefi",
+    "web3",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Namefi",
+    "shortDescription": "Search, register, and manage domains and DNS from Codex",
+    "longDescription": "Namefi turns internet domains into on-chain NFTs. This plugin connects Codex to the Namefi API: check domain availability and pricing, register domains and track orders, read and edit DNS records, configure parking, forwarding, and auto-renew, and find outbound leads for domains you own.",
+    "developerName": "D3Serve Labs",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://namefi.io",
+    "defaultPrompt": "Check whether a domain is available and what it costs, register one, or update its DNS records",
+    "brandColor": "#0a0a0a",
+    "composerIcon": "./assets/namefi-small.svg",
+    "logo": "./assets/namefi.png",
+    "screenshots": []
+  }
+}

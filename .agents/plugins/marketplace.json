@@ -1,0 +1,20 @@
+{
+  "name": "namefi",
+  "interface": {
+    "displayName": "Namefi"
+  },
+  "plugins": [
+    {
+      "name": "namefi",
+      "source": {
+        "source": "local",
+        "path": "./plugins/namefi"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

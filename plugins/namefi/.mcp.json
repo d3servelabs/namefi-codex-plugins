@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "namefi": {
+      "type": "http",
+      "url": "https://api.namefi.io/mcp",
+      "oauth_resource": "https://api.namefi.io/mcp"
+    }
+  }
+}
