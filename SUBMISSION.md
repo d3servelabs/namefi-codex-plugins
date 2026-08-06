@@ -6,7 +6,7 @@ automatically and anything ambiguous goes to manual review before publication.
 
 ## Pre-submission checklist
 
-- [ ] Repo is **public** on GitHub at `d3servelabs/namefi-codex-plugin`
+- [ ] Repo is **public** on GitHub at `d3servelabs/namefi-codex-plugins`
 - [ ] `plugins/namefi/.codex-plugin/plugin.json` parses and has `name`, `version`,
       `description` (the three required fields)
 - [ ] `skills`, `mcpServers`, `composerIcon`, and `logo` paths all resolve
@@ -15,7 +15,7 @@ automatically and anything ambiguous goes to manual review before publication.
 - [ ] Install works end-to-end from the public repo:
 
   ```bash
-  npx codex-marketplace add d3servelabs/namefi-codex-plugin/plugins/namefi --plugin --project
+  npx codex-marketplace add d3servelabs/namefi-codex-plugins/plugins/namefi --plugin --project
   ```
 
 - [ ] Install writes `[plugins."namefi@<marketplace>"] enabled = true` into
@@ -33,7 +33,7 @@ Go to <https://www.codex-marketplace.com/submit> (sign-in required) and enter th
 repository URL:
 
 ```
-https://github.com/d3servelabs/namefi-codex-plugin
+https://github.com/d3servelabs/namefi-codex-plugins
 ```
 
 A GitHub tree URL also works and is the way to pin an exact branch, tag, or commit.
@@ -94,8 +94,10 @@ Example 9: find buyers for the domains you're sitting on and draft the outreach 
 Users install with:
 
 ```bash
-npx codex-marketplace add d3servelabs/namefi-codex-plugin --plugin --project
+npx codex-marketplace add d3servelabs/namefi-codex-plugins/plugins/namefi --plugin --project
 ```
+
+(`--plugin` needs the direct plugin path; use `--plugins` with the bare repo.)
 
 Ship updates by bumping `version` in `plugins/namefi/.codex-plugin/plugin.json` and
 pushing.

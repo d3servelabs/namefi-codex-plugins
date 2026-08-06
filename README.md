@@ -5,7 +5,7 @@ Search, register, and manage domains and their DNS from OpenAI Codex.
 ## Install
 
 ```bash
-npx codex-marketplace add d3servelabs/namefi-codex-plugin/plugins/namefi --plugin --project
+npx codex-marketplace add d3servelabs/namefi-codex-plugins/plugins/namefi --plugin --project
 ```
 
 Use `--global` instead of `--project` to install for your user rather than one repo.
@@ -15,7 +15,7 @@ The singular `--plugin` flag requires the direct repository path shown above. Th
 plural form crawls the whole `plugins/` folder:
 
 ```bash
-npx codex-marketplace add d3servelabs/namefi-codex-plugin --plugins --project
+npx codex-marketplace add d3servelabs/namefi-codex-plugins --plugins --project
 ```
 
 Remove with `npx codex-marketplace remove namefi --project`.

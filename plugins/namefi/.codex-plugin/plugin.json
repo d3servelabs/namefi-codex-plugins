@@ -7,7 +7,7 @@
     "url": "https://namefi.io"
   },
   "homepage": "https://namefi.io",
-  "repository": "https://github.com/d3servelabs/namefi-codex-plugin",
+  "repository": "https://github.com/d3servelabs/namefi-codex-plugins",
   "license": "MIT",
   "keywords": [
     "domains",
