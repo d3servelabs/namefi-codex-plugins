@@ -1,7 +1,7 @@
 {
   "name": "namefi",
   "version": "0.1.0",
-  "description": "Search, register, and manage domains and their DNS through the Namefi API, via the hosted Namefi MCP server.",
+  "description": "Search, register, and manage domains and their DNS through the Namefi API (via the hosted Namefi MCP server), plus guided workflows for pointing a domain at a machine with no static IP (dynamic DNS, NAT port forwarding) and serving it over real HTTPS behind Caddy or Traefik.",
   "author": {
     "name": "D3Serve Labs",
     "url": "https://namefi.io"
@@ -15,14 +15,22 @@
     "domain-registration",
     "namefi",
     "web3",
-    "mcp"
+    "mcp",
+    "dynamic-dns",
+    "dyndns",
+    "nat",
+    "port-forwarding",
+    "https",
+    "reverse-proxy",
+    "caddy",
+    "traefik"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Namefi",
     "shortDescription": "Search, register, and manage domains and DNS from Codex",
-    "longDescription": "Namefi turns internet domains into on-chain NFTs. This plugin connects Codex to the Namefi API: check domain availability and pricing, register domains and track orders, read and edit DNS records, configure parking, forwarding, and auto-renew, and find outbound leads for domains you own.",
+    "longDescription": "Namefi turns internet domains into on-chain NFTs. This plugin connects Codex to the Namefi API: check domain availability and pricing, register domains and track orders, read and edit DNS records, configure parking, forwarding, and auto-renew, and find outbound leads for domains you own. It also bundles guided skills for exposing a locally-developed service on a real hostname without a static IP — dynamic DNS, NAT port forwarding, and real HTTPS behind Caddy or Traefik.",
     "developerName": "D3Serve Labs",
     "category": "Productivity",
     "capabilities": [
