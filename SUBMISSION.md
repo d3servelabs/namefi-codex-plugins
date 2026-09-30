@@ -1,103 +1,29 @@
-# Submitting the Namefi plugin to the Codex Plugin Marketplace
+# OpenAI Plugins Directory submission
 
-The Codex Plugin Marketplace (<https://www.codex-marketplace.com>) is a
-community-run catalog, **not affiliated with OpenAI**. Submissions are validated
-automatically and anything ambiguous goes to manual review before publication.
+This repository now contains a portable Agent Plugins package at `plugins/namefi/`. It keeps the older Codex files for local marketplace installs. The portable package is a preparation draft; it has not been uploaded or submitted for review.
 
-## Pre-submission checklist
+## Listing prepared in the package
 
-- [ ] Repo is **public** on GitHub at `d3servelabs/namefi-codex-plugins`
-- [ ] `plugins/namefi/.codex-plugin/plugin.json` parses and has `name`, `version`,
-      `description` (the three required fields)
-- [ ] `skills`, `mcpServers`, `composerIcon`, and `logo` paths all resolve
-- [ ] Skill directory name matches its frontmatter `name` (`namefi-domains`)
-- [ ] `interface.shortDescription` is ≤125 characters
-- [ ] Install works end-to-end from the public repo:
+- Intended publisher account: Namefi by D3Serve Labs Inc. The public developer name must match the identity selected and verified in the OpenAI portal.
+- Name: Namefi. Subtitle: “Domains and DNS with Namefi” (27 characters).
+- Category: Productivity. Starter prompts cover domain search, DNS records, and dynamic DNS.
+- Website: <https://namefi.io/>.
+- Privacy policy: <https://namefi.io/privacy>.
+- Terms: <https://namefi.io/tos>.
+- Commerce: paid registrations through Namefi tools after price confirmation, or checkout on Namefi's website.
+- Publication targeting: all available countries (`countries: []`, which sets no country allowlist).
+- Icon: `plugins/namefi/assets/namefi-icon.png`, a 512 × 512 PNG made from the existing Namefi mark.
+- Review cases: five positive and three negative cases in `plugin.json`. These are drafted, not run.
+- Release notes: included in `plugin.json`.
 
-  ```bash
-  npx codex-marketplace add d3servelabs/namefi-codex-plugins/plugins/namefi --plugin --project
-  ```
+## Complete before public review
 
-- [ ] Install writes `[plugins."namefi@<marketplace>"] enabled = true` into
-      `~/.codex/config.toml`, and the plugin lands under `./plugins/namefi`
-- [ ] In Codex, the sign-in prompt appears, and after authenticating a live call
-      works — e.g. "is acme-robotics.com available and what does it cost?"
-- [ ] `npx codex-marketplace remove namefi --project` cleans up
+1. Publish [SUPPORT.md](./SUPPORT.md) as a public HTTPS support page and verify that it opens without signing in. Then put its final URL in `extensions.com.openai.interface.supportURL` in the portable manifest and `interface.supportURL` in the compatibility manifest. The provided support contact is `support@namefi.io`; an email address alone does not fill this URL field.
+2. Select the Namefi by D3Serve Labs Inc organization in the OpenAI portal and confirm that its verified public developer identity matches both listing `developerName` fields. The organization ID belongs in portal setup, not the public package.
+3. Prepare a dedicated reviewer account with at least one Namefi domain and a DNS zone. Put credentials, login instructions, and any fixture domain in the submission portal's secure reviewer-access fields, never in this package.
+4. Run the five positive and three negative cases with the reviewer account. Compare the actual tool calls and results to the expectations in `plugin.json`; adjust any case that does not match intended behavior. No case in this draft has been marked passed.
+5. Record the actual packaged plugin in ChatGPT or Codex using the reviewer account. Show domain availability and price, domain suggestions, owned domains and DNS records, then a boundary prompt such as asking it to create an email inbox. Keep tokens and private account details off screen. Host the recording where reviewers can view it without requesting access, verify playback, and add its URL as `extensions.com.openai.review.demo_recording_url`.
+6. Update the hosted Namefi MCP server's tool annotations. Its current `registerTool` calls do not set `readOnlyHint`, `openWorldHint`, or `destructiveHint`; OpenAI's MCP review requires boolean values that match each tool's behavior. The server lives outside this plugin repository.
+7. Validate the final package, upload it through the OpenAI Developer Portal with its existing HTTPS MCP endpoint, connect OAuth, inspect the imported metadata, and run the saved review cases. Domain and developer verification, scans, legal attestations, and submission for review are portal steps for the authorized publisher.
 
-The CLI itself was verified at v0.2.1: the flags above are real, and a test install
-of the official `openai/plugins` notion plugin round-tripped cleanly.
-
-## Submit
-
-Go to <https://www.codex-marketplace.com/submit> (sign-in required) and enter the
-repository URL:
-
-```
-https://github.com/d3servelabs/namefi-codex-plugins
-```
-
-A GitHub tree URL also works and is the way to pin an exact branch, tag, or commit.
-
-### Values the manifest declares
-
-| Field | Value |
-| --- | --- |
-| Plugin name | `namefi` |
-| Version | `0.1.0` |
-| Display name | Namefi |
-| Category | Productivity |
-| Capabilities | Interactive, Read, Write |
-| Keywords | domains, dns, domain-registration, namefi, web3, mcp |
-| Homepage / website | https://namefi.io |
-| License | MIT |
-| Developer | D3Serve Labs |
-
-## Example use cases
-
-Example 1: check if a domain you want like `acme-robotics.com` is available and what it costs.
-
-Example 2: brainstorm names — "find me a short .com for an AI invoicing startup" — and check the whole shortlist at once.
-
-Example 3: register `acme-robotics.com` for 2 years and watch the order through to completion.
-
-Example 4: pay in USDC instead of by card, or grab a cart link and check out yourself in the browser.
-
-Example 5: list the domains you already own and turn on auto-renew across all of them.
-
-Example 6: point `acme-robotics.com` at your server — "add an A record for 76.76.21.21".
-
-Example 7: migrate email — "move all my MX records over to Google Workspace" — in one batch instead of record by record.
-
-Example 8: park a domain you're not using yet and forward it to your main site.
-
-Example 9: find buyers for the domains you're sitting on and draft the outreach emails.
-
-## What reviewers will look at
-
-- The bundled MCP server (`https://api.namefi.io/mcp`) is a network egress point, so
-  expect questions about what leaves the machine and how auth works. Answer: OAuth
-  2.1 + PKCE with dynamic client registration, or a user-supplied `x-api-key`; no
-  credentials are bundled in the plugin.
-- The skill instructs Codex to confirm with the user before submitting a paid
-  registration order. Keep that behavior — it's the main safety property here.
-
-## Also worth doing
-
-- **Official OpenAI catalog:** <https://github.com/openai/plugins> is the curated
-  first-party collection (`.agents/plugins/marketplace.json`). It has no open
-  submission form; inclusion is at OpenAI's discretion.
-- **Awesome list:** <https://github.com/hashgraph-online/awesome-codex-plugins>
-  accepts PRs and is linked from the marketplace docs — cheap extra discovery.
-
-## After approval
-
-Users install with:
-
-```bash
-npx codex-marketplace add d3servelabs/namefi-codex-plugins/plugins/namefi --plugin --project
-```
-
-(`--plugin` needs the direct plugin path; use `--plugins` with the bare repo.)
-
-Ship updates by bumping `version` in `plugins/namefi/.codex-plugin/plugin.json` and
-pushing.
+The published [OpenAI package format](https://developers.openai.com/plugins/build/plugins) and [submission requirements](https://developers.openai.com/plugins/deploy/submission) are the references for this checklist. The old community Codex Plugin Marketplace process in this file was separate from OpenAI's public Plugins Directory.
