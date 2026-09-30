@@ -1,9 +1,9 @@
 {
   "name": "namefi",
-  "version": "0.1.0",
-  "description": "Search, register, and manage domains and their DNS through the Namefi API (via the hosted Namefi MCP server), plus guided workflows for pointing a domain at a machine with no static IP (dynamic DNS, NAT port forwarding) and serving it over real HTTPS behind Caddy or Traefik.",
+  "version": "0.2.0",
+  "description": "Search, register, and manage domains and DNS with Namefi, with guided dynamic DNS and HTTPS setup.",
   "author": {
-    "name": "D3Serve Labs",
+    "name": "Namefi by D3Serve Labs Inc",
     "url": "https://namefi.io"
   },
   "homepage": "https://namefi.io",
@@ -29,20 +29,25 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Namefi",
-    "shortDescription": "Search, register, and manage domains and DNS from Codex",
-    "longDescription": "Namefi turns internet domains into on-chain NFTs. This plugin connects Codex to the Namefi API: check domain availability and pricing, register domains and track orders, read and edit DNS records, configure parking, forwarding, and auto-renew, and find outbound leads for domains you own. It also bundles guided skills for exposing a locally-developed service on a real hostname without a static IP — dynamic DNS, NAT port forwarding, and real HTTPS behind Caddy or Traefik.",
-    "developerName": "D3Serve Labs",
+    "shortDescription": "Domains and DNS with Namefi",
+    "longDescription": "Search domain availability and pricing, register domains after confirming the price, and manage DNS and settings for domains in your Namefi account. You can also prepare a cart link for checkout on Namefi's website. Guided skills help you configure dynamic DNS and serve a local service over HTTPS. A Namefi sign-in is required for MCP tools, including searches. Domain registration can cost money, and DNS changes affect live traffic.",
+    "developerName": "Namefi by D3Serve Labs Inc",
     "category": "Productivity",
     "capabilities": [
-      "Interactive",
-      "Read",
-      "Write"
+      "Search domains",
+      "Register domains",
+      "Manage DNS"
     ],
     "websiteURL": "https://namefi.io",
-    "defaultPrompt": "Check whether a domain is available and what it costs, register one, or update its DNS records",
-    "brandColor": "#0a0a0a",
-    "composerIcon": "./assets/namefi-small.svg",
-    "logo": "./assets/namefi.png",
-    "screenshots": []
+    "privacyPolicyURL": "https://namefi.io/privacy",
+    "termsOfServiceURL": "https://namefi.io/tos",
+    "defaultPrompt": [
+      "Check whether a domain is available and show its price.",
+      "Show the DNS records for one of my Namefi domains.",
+      "Help me point a Namefi domain at my home server."
+    ],
+    "brandColor": "#0A0A0A",
+    "composerIcon": "./assets/namefi-icon.png",
+    "logo": "./assets/namefi-icon.png"
   }
 }

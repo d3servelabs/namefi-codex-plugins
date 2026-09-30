@@ -1,0 +1,101 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "namefi",
+  "version": "0.2.0",
+  "description": "Search, register, and manage domains and DNS with Namefi, with guided dynamic DNS and HTTPS setup.",
+  "author": {
+    "name": "Namefi by D3Serve Labs Inc",
+    "url": "https://namefi.io"
+  },
+  "homepage": "https://namefi.io",
+  "repository": "https://github.com/d3servelabs/namefi-codex-plugins",
+  "license": "MIT",
+  "keywords": [
+    "domains",
+    "dns",
+    "domain-registration",
+    "namefi",
+    "dynamic-dns",
+    "https"
+  ],
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/namefi-domains/SKILL.md",
+      "interface": {
+        "displayName": "Namefi",
+        "shortDescription": "Domains and DNS with Namefi",
+        "longDescription": "Search domain availability and pricing, register domains after confirming the price, and manage DNS and settings for domains in your Namefi account. You can also prepare a cart link for checkout on Namefi's website. Guided skills help you configure dynamic DNS and serve a local service over HTTPS. A Namefi sign-in is required for MCP tools, including searches. Domain registration can cost money, and DNS changes affect live traffic.",
+        "developerName": "Namefi by D3Serve Labs Inc",
+        "category": "Productivity",
+        "capabilities": ["Search domains", "Register domains", "Manage DNS"],
+        "websiteURL": "https://namefi.io",
+        "privacyPolicyURL": "https://namefi.io/privacy",
+        "termsOfServiceURL": "https://namefi.io/tos",
+        "defaultPrompt": [
+          "Check whether a domain is available and show its price.",
+          "Show the DNS records for one of my Namefi domains.",
+          "Help me point a Namefi domain at my home server."
+        ],
+        "brandColor": "#0A0A0A",
+        "composerIcon": "./assets/namefi-icon.png",
+        "logo": "./assets/namefi-icon.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Check an existing domain without starting a purchase. Sign in to the reviewer account first.",
+              "prompt": "Check whether example.com is available to register through Namefi and show any price or registration constraints the service returns.",
+              "tools_triggered": "checkAvailability",
+              "expected_behavior": "Call checkAvailability with domain example.com. Report the returned availability and any price or constraints without inventing a price or placing an order."
+            },
+            {
+              "description": "Generate domain candidates from a concept. Sign in to the reviewer account first.",
+              "prompt": "Suggest domain names for a solar invoicing startup using Namefi.",
+              "tools_triggered": "getSuggestions",
+              "expected_behavior": "Call getSuggestions with a query reflecting solar invoicing. Present candidates returned by the tool and distinguish suggestions from confirmed availability."
+            },
+            {
+              "description": "Compare multiple exact domains in one search. Sign in to the reviewer account first.",
+              "prompt": "Compare availability and prices for example.com and example.net through Namefi.",
+              "tools_triggered": "checkBulkAvailability",
+              "expected_behavior": "Call checkBulkAvailability with both domain names. Report each returned availability and pricing result separately, without treating a registered name as purchasable."
+            },
+            {
+              "description": "List domains held by the reviewer account. The account must contain at least one Namefi domain.",
+              "prompt": "List the domains in my Namefi account.",
+              "tools_triggered": "getUserDomains",
+              "expected_behavior": "Call getUserDomains for the signed-in account. Show only domains returned for that account and identify a domain that can be used in the DNS review case."
+            },
+            {
+              "description": "Read DNS records for a domain in the reviewer account. The account must contain at least one Namefi domain with a DNS zone.",
+              "prompt": "Choose one domain in my Namefi account and show its current DNS records.",
+              "tools_triggered": "getUserDomains, getDnsRecords",
+              "expected_behavior": "Call getUserDomains, then getDnsRecords with the chosen domain as zoneName. Report record names, types, and values returned by Namefi; make no DNS changes."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Creating hosted email mailboxes is outside this plugin. Do not call a Namefi tool to claim a mailbox was created.",
+              "prompt": "Create an email inbox for hello@example.com and give me its login password."
+            },
+            {
+              "description": "Website hosting and deployment are outside this plugin. Do not call Namefi tools to claim files were deployed.",
+              "prompt": "Upload my website files to example.com and make the site live."
+            },
+            {
+              "description": "Sending outbound email is outside this plugin. Lead finding may be supported, but no Namefi tool should claim to send a message.",
+              "prompt": "Send an email campaign to potential buyers of my domain now."
+            }
+          ]
+        },
+        "commerce": true,
+        "commerce_description": "Users can register paid domains through Namefi tools after reviewing the name, duration, and price. The plugin can also provide a Namefi cart link for checkout on namefi.io."
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "Added a portable OpenAI plugin package, submission metadata, and a larger listing icon while retaining the local Codex marketplace layout."
+      }
+    }
+  }
+}
