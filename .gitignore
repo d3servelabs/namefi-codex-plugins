@@ -1,1 +1,2 @@
-/dist/
+/dist/*
+!/dist/namefi-mcp-demo-use-cases.md
