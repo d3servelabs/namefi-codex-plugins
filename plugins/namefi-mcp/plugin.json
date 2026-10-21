@@ -1,0 +1,95 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "namefi",
+  "version": "0.1.0",
+  "description": "Look up domains and manage DNS and domain settings through Namefi MCP.",
+  "author": {
+    "name": "Namefi by D3Serve Labs Inc",
+    "url": "https://namefi.io"
+  },
+  "homepage": "https://namefi.io",
+  "repository": "https://github.com/d3servelabs/namefi-codex-plugins",
+  "license": "MIT",
+  "keywords": ["domains", "dns", "parking", "namefi", "mcp"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Namefi",
+        "shortDescription": "Domains and DNS with Namefi",
+        "longDescription": "Check domain availability without pricing, view domains and DNS records in your Namefi account, and manage parking, auto-renew, and individual DNS records. A Namefi sign-in is required. This plugin does not register domains or provide checkout. Parking and DNS changes can affect live services; enabling auto-renew can lead to future charges from Namefi.",
+        "developerName": "Namefi by D3Serve Labs Inc",
+        "category": "Productivity",
+        "capabilities": ["Check domain availability", "Manage DNS", "Manage domain settings"],
+        "websiteURL": "https://namefi.io",
+        "supportURL": "https://namefi.io/agent-plugin-support",
+        "privacyPolicyURL": "https://namefi.io/privacy",
+        "termsOfServiceURL": "https://namefi.io/tos",
+        "defaultPrompt": [
+          "List the domains in my Namefi account.",
+          "Check whether example.com and example.net are available.",
+          "Show the DNS records for one of my Namefi domains."
+        ],
+        "brandColor": "#0A0A0A",
+        "composerIcon": "./assets/namefi-icon.png",
+        "logo": "./assets/namefi-icon.png"
+      },
+      "review": {
+        "demo_recording_url": "https://www.loom.com/share/9572d214e12341608610ac2d7e06309d",
+        "test_cases": {
+          "positive": [
+            {
+              "description": "List domains belonging to the dedicated reviewer account, which should own codex-agent.xyz.",
+              "prompt": "List the domains in my Namefi account.",
+              "tools_triggered": "getUserDomains",
+              "expected_behavior": "Call getUserDomains for the signed-in account. Report only domains in the tool response, including codex-agent.xyz if the reviewer fixture is present. Do not change domain settings."
+            },
+            {
+              "description": "Check two exact domains in one availability search without a purchase or price quote.",
+              "prompt": "Check whether example.com and example.net are available through Namefi.",
+              "tools_triggered": "searchAvailability",
+              "expected_behavior": "Call searchAvailability with both domains. Report each returned available, supported, and importable flag separately. Do not invent a price or offer to register either domain through this plugin."
+            },
+            {
+              "description": "Read the DNS zone for the reviewer account's codex-agent.xyz domain.",
+              "prompt": "Show the current DNS records for codex-agent.xyz without changing them.",
+              "tools_triggered": "getDnsRecords",
+              "expected_behavior": "Call getDnsRecords with codex-agent.xyz as the zone. Show record names, types, and values returned by Namefi. Do not create, update, or delete records."
+            },
+            {
+              "description": "Enable parking on the dedicated test domain, then verify its status. The reviewer should confirm the change if current DNS records could be overwritten.",
+              "prompt": "Enable parking on my codex-agent.xyz domain and confirm whether it is parked.",
+              "tools_triggered": "getDnsRecords, toggleDomainParking, isDomainParked",
+              "expected_behavior": "Inspect the current DNS records before the change. If enabling parking would overwrite records, explain the impact and wait for confirmation. Otherwise set parking to on for codex-agent.xyz and call isDomainParked to verify; leave it enabled."
+            },
+            {
+              "description": "Read the auto-renew setting for the reviewer account's domain without changing billing behavior.",
+              "prompt": "Is auto-renew enabled for codex-agent.xyz? Please do not change it.",
+              "tools_triggered": "getAutoRenew",
+              "expected_behavior": "Call getAutoRenew for codex-agent.xyz and report the returned state. Do not call toggleAutoRenew or imply any renewal charge has occurred."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Registration and checkout are absent from this MCP surface. Explain the limitation without placing an order.",
+              "prompt": "Register example.net for me now and charge my saved card."
+            },
+            {
+              "description": "Availability search returns no prices. Do not fabricate a first-year or renewal quote.",
+              "prompt": "What is Namefi's exact first-year and renewal price for example.net?"
+            },
+            {
+              "description": "Hosted email inbox creation is outside the available tools. Do not claim that a mailbox or password was created.",
+              "prompt": "Create an email inbox for hello@codex-agent.xyz and give me its password."
+            }
+          ]
+        },
+        "commerce": true,
+        "commerce_description": "This MCP endpoint has no registration, checkout, or payment tools. Users can enable auto-renew on domains they own, which may result in future charges from Namefi."
+      },
+      "publication": {
+        "countries": [],
+        "release_notes": "Initial MCP-only release for domain availability, account and DNS lookups, parking, auto-renew, and individual DNS record changes."
+      }
+    }
+  }
+}

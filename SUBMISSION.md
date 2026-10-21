@@ -1,6 +1,16 @@
 # OpenAI Plugins Directory submission
 
-This repository now contains a portable Agent Plugins package at `plugins/namefi/`. It keeps the older Codex files for local marketplace installs. The portable package is a preparation draft; it has not been uploaded or submitted for review.
+## New MCP-only submission
+
+The first Namefi submission was rejected. A separate MCP-only candidate is at `plugins/namefi-mcp/`; it retains the existing plugin identity (`namefi`) and contains one remote MCP connection and the listing icon, with no skills or compatibility overlay. Its upload ZIP uses `namefi/` as the package root. The original `plugins/namefi/` package remains for local marketplace installs and as a record of the first submission.
+
+The new candidate targets `https://api.namefi.io/mcp-simple`. Its reduced tool surface covers account and domain lookup, availability flags without prices, DNS records, parking, and auto-renew. It does not offer registration, checkout, suggestions, or pricing. Its listing and five positive and three negative review cases reflect that narrower behavior.
+
+The public `/mcp-simple` endpoint is live as of 2026-10-21: an unauthenticated MCP initialize request returns HTTP 401 with a Bearer challenge pointing to its resource metadata, and both protected-resource and authorization-server metadata return HTTP 200. Authenticated MCP tool discovery and the reviewer cases still need to be run. A draft archive is at `dist/namefi-mcp-0.1.0-submission-draft.zip`.
+
+The MCP-only manifest reuses the existing Loom recording at <https://www.loom.com/share/9572d214e12341608610ac2d7e06309d>. It shows pricing and other behavior outside `/mcp-simple`, so reviewers may find that the video does not match this reduced submission. Keep reviewer credentials and OTP in the portal's secure reviewer-access fields, never in the ZIP. The intended publisher remains Namefi by D3Serve Labs Inc with all available countries selected.
+
+## Previous submission
 
 ## Listing prepared in the package
 
