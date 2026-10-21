@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "namefi",
   "version": "0.1.0",
-  "description": "Look up domains and manage DNS and domain settings through Namefi MCP.",
+  "description": "Check domain availability and inspect public DNS records through Namefi MCP.",
   "author": {
     "name": "Namefi by D3Serve Labs Inc",
     "url": "https://namefi.io"
@@ -10,85 +10,85 @@
   "homepage": "https://namefi.io",
   "repository": "https://github.com/d3servelabs/namefi-codex-plugins",
   "license": "MIT",
-  "keywords": ["domains", "dns", "parking", "namefi", "mcp"],
+  "keywords": ["domains", "dns", "availability", "namefi", "mcp"],
   "extensions": {
     "com.openai": {
       "interface": {
         "displayName": "Namefi",
-        "shortDescription": "Domains and DNS with Namefi",
-        "longDescription": "Check domain availability without pricing, view domains and DNS records in your Namefi account, and manage parking, auto-renew, and individual DNS records. A Namefi sign-in is required. This plugin does not register domains or provide checkout. Parking and DNS changes can affect live services; enabling auto-renew can lead to future charges from Namefi.",
+        "shortDescription": "Check domains and DNS",
+        "longDescription": "Check whether domain names are available and inspect public DNS answers for any hostname, including website and email records. No account or sign-in is needed. Both tools are read-only. This plugin does not provide prices, domain registration, checkout, account access, or DNS changes.",
         "developerName": "Namefi by D3Serve Labs Inc",
-        "category": "Productivity",
-        "capabilities": ["Check domain availability", "Manage DNS", "Manage domain settings"],
+        "category": "Developer Tools",
+        "capabilities": ["Check domain availability", "Inspect public DNS records"],
         "websiteURL": "https://namefi.io",
         "supportURL": "https://namefi.io/agent-plugin-support",
         "privacyPolicyURL": "https://namefi.io/privacy",
         "termsOfServiceURL": "https://namefi.io/tos",
         "defaultPrompt": [
-          "List the domains in my Namefi account.",
-          "Check whether example.com and example.net are available.",
-          "Show the DNS records for one of my Namefi domains."
+          "Check whether codex-agent.xyz is available.",
+          "Does namefi.io have A records?",
+          "Check the MX, SPF, and DMARC records for namefi.io."
         ],
         "brandColor": "#0A0A0A",
         "composerIcon": "./assets/namefi-icon.png",
         "logo": "./assets/namefi-icon.png"
       },
       "review": {
-        "demo_recording_url": "https://www.loom.com/share/9572d214e12341608610ac2d7e06309d",
+        "demo_recording_url": "https://www.loom.com/share/dd12975679b34e518fd937cb0a69fe76",
         "test_cases": {
           "positive": [
             {
-              "description": "List domains belonging to the dedicated reviewer account, which should own codex-agent.xyz.",
-              "prompt": "List the domains in my Namefi account.",
-              "tools_triggered": "getUserDomains",
-              "expected_behavior": "Call getUserDomains for the signed-in account. Report only domains in the tool response, including codex-agent.xyz if the reviewer fixture is present. Do not change domain settings."
+              "description": "Check public email DNS records for namefi.io without signing in.",
+              "prompt": "Validate the public email DNS setup for namefi.io: check MX, SPF, and DMARC, and tell me what these records do and do not prove.",
+              "tools_triggered": "dnsOverHttp",
+              "expected_behavior": "Query MX and TXT for namefi.io and TXT for _dmarc.namefi.io. Report the returned mail exchangers, SPF policy, and DMARC policy. Explain that DNS presence and syntax do not prove DKIM signing or successful mail delivery. Make no changes."
             },
             {
-              "description": "Check two exact domains in one availability search without a purchase or price quote.",
-              "prompt": "Check whether example.com and example.net are available through Namefi.",
+              "description": "Verify public A records for the Namefi website.",
+              "prompt": "Does namefi.io have an A record? Show the IPv4 address and TTL returned by public DNS.",
+              "tools_triggered": "dnsOverHttp",
+              "expected_behavior": "Query the A record for namefi.io. Report the returned IPv4 address and TTL, or accurately report an empty answer. Do not claim this proves the website is reachable."
+            },
+            {
+              "description": "Check whether the dedicated demo domain is available for registration.",
+              "prompt": "Is codex-agent.xyz available to register through Namefi?",
               "tools_triggered": "searchAvailability",
-              "expected_behavior": "Call searchAvailability with both domains. Report each returned available, supported, and importable flag separately. Do not invent a price or offer to register either domain through this plugin."
+              "expected_behavior": "Call searchAvailability for codex-agent.xyz and report its available, supported, and importable flags. Do not infer a price, ownership, or the ability to purchase through this plugin."
             },
             {
-              "description": "Read the DNS zone for the reviewer account's codex-agent.xyz domain.",
-              "prompt": "Show the current DNS records for codex-agent.xyz without changing them.",
-              "tools_triggered": "getDnsRecords",
-              "expected_behavior": "Call getDnsRecords with codex-agent.xyz as the zone. Show record names, types, and values returned by Namefi. Do not create, update, or delete records."
+              "description": "Identify the public CNAME target used by the Namefi www hostname.",
+              "prompt": "What CNAME does www.namefi.io currently point to? Show the target and TTL.",
+              "tools_triggered": "dnsOverHttp",
+              "expected_behavior": "Query the CNAME record for www.namefi.io and report the returned target and TTL. Do not claim the target's web service is healthy based on DNS alone."
             },
             {
-              "description": "Enable parking on the dedicated test domain, then verify its status. The reviewer should confirm the change if current DNS records could be overwritten.",
-              "prompt": "Enable parking on my codex-agent.xyz domain and confirm whether it is parked.",
-              "tools_triggered": "getDnsRecords, toggleDomainParking, isDomainParked",
-              "expected_behavior": "Inspect the current DNS records before the change. If enabling parking would overwrite records, explain the impact and wait for confirmation. Otherwise set parking to on for codex-agent.xyz and call isDomainParked to verify; leave it enabled."
-            },
-            {
-              "description": "Read the auto-renew setting for the reviewer account's domain without changing billing behavior.",
-              "prompt": "Is auto-renew enabled for codex-agent.xyz? Please do not change it.",
-              "tools_triggered": "getAutoRenew",
-              "expected_behavior": "Call getAutoRenew for codex-agent.xyz and report the returned state. Do not call toggleAutoRenew or imply any renewal charge has occurred."
+              "description": "List the public nameservers for the Namefi domain.",
+              "prompt": "Which nameservers does public DNS return for namefi.io?",
+              "tools_triggered": "dnsOverHttp",
+              "expected_behavior": "Query NS records for namefi.io and list only the returned nameserver hostnames. Explain that a public DNS answer may be cached."
             }
           ],
           "negative": [
             {
-              "description": "Registration and checkout are absent from this MCP surface. Explain the limitation without placing an order.",
-              "prompt": "Register example.net for me now and charge my saved card."
+              "description": "Registration and checkout are absent from this read-only MCP surface. Do not place an order.",
+              "prompt": "Register codex-agent.xyz for me now and charge my saved card."
             },
             {
               "description": "Availability search returns no prices. Do not fabricate a first-year or renewal quote.",
               "prompt": "What is Namefi's exact first-year and renewal price for example.net?"
             },
             {
-              "description": "Hosted email inbox creation is outside the available tools. Do not claim that a mailbox or password was created.",
-              "prompt": "Create an email inbox for hello@codex-agent.xyz and give me its password."
+              "description": "DNS changes are unavailable. A public DNS lookup cannot create or change records.",
+              "prompt": "Change the A record for namefi.io to 203.0.113.10."
             }
           ]
         },
-        "commerce": true,
-        "commerce_description": "This MCP endpoint has no registration, checkout, or payment tools. Users can enable auto-renew on domains they own, which may result in future charges from Namefi."
+        "commerce": false,
+        "commerce_description": "These read-only tools do not register domains, take payments, or provide checkout."
       },
       "publication": {
         "countries": [],
-        "release_notes": "Initial MCP-only release for domain availability, account and DNS lookups, parking, auto-renew, and individual DNS record changes."
+        "release_notes": "Public, no-sign-in MCP release with read-only domain availability and DNS-over-HTTPS lookups."
       }
     }
   }

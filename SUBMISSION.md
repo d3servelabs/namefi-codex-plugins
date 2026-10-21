@@ -4,11 +4,19 @@
 
 The first Namefi submission was rejected. A separate MCP-only candidate is at `plugins/namefi-mcp/`; it retains the existing plugin identity (`namefi`) and contains one remote MCP connection and the listing icon, with no skills or compatibility overlay. Its upload ZIP uses `namefi/` as the package root. The original `plugins/namefi/` package remains for local marketplace installs and as a record of the first submission.
 
-The new candidate targets `https://api.namefi.io/mcp-simple`. Its reduced tool surface covers account and domain lookup, availability flags without prices, DNS records, parking, and auto-renew. It does not offer registration, checkout, suggestions, or pricing. Its listing and five positive and three negative review cases reflect that narrower behavior.
+The new candidate targets `https://api.namefi.io/mcp-simple`. It exposes only two anonymous, read-only tools: `searchAvailability` (availability flags without prices) and `dnsOverHttp` (public DNS answers). It does not offer account access, registration, checkout, DNS changes, or pricing. Its listing and five positive and three negative review cases reflect that surface.
 
-The public `/mcp-simple` endpoint is live as of 2026-10-21: an unauthenticated MCP initialize request returns HTTP 401 with a Bearer challenge pointing to its resource metadata, and both protected-resource and authorization-server metadata return HTTP 200. Authenticated MCP tool discovery and the reviewer cases still need to be run. A draft archive is at `dist/namefi-mcp-0.1.0-submission-draft.zip`.
+The public `/mcp-simple` endpoint is live as of 2026-10-21: unauthenticated MCP initialize and tools/list requests return HTTP 200 and list exactly those two tools. A draft archive is at `dist/namefi-mcp-0.1.0-submission-draft.zip`. The portal connection should use no authentication; an earlier OAuth connection may need to be reconnected after this package is uploaded.
 
-The MCP-only manifest reuses the existing Loom recording at <https://www.loom.com/share/9572d214e12341608610ac2d7e06309d>. It shows pricing and other behavior outside `/mcp-simple`, so reviewers may find that the video does not match this reduced submission. Keep reviewer credentials and OTP in the portal's secure reviewer-access fields, never in the ZIP. The intended publisher remains Namefi by D3Serve Labs Inc with all available countries selected.
+The MCP-only manifest uses the new demo recording at <https://www.loom.com/share/dd12975679b34e518fd937cb0a69fe76>. Its public page returned HTTP 200 on 2026-10-22; playback and exact case coverage still need reviewer-style verification. No reviewer credentials or OTP are needed for these public tools. The intended publisher remains Namefi by D3Serve Labs Inc with all available countries selected.
+
+For the new demo, run these five prompts without signing in and show the tool calls and returned data. DNS and availability answers can change over time, so describe the live result rather than promising a fixed value:
+
+1. “Validate the public email DNS setup for namefi.io: check MX, SPF, and DMARC, and tell me what these records do and do not prove.” Show MX and TXT lookups for `namefi.io` and TXT for `_dmarc.namefi.io`. DNS records alone cannot prove DKIM signing or mail delivery.
+2. “Does namefi.io have an A record? Show the IPv4 address and TTL returned by public DNS.”
+3. “Is codex-agent.xyz available to register through Namefi?” Show `available`, `supported`, and `importable` separately; do not quote a price.
+4. “What CNAME does www.namefi.io currently point to? Show the target and TTL.”
+5. “Which nameservers does public DNS return for namefi.io?”
 
 ## Previous submission
 
